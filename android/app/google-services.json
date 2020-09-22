@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "101971802147",
+    "firebase_url": "https://count-day-e89b0.firebaseio.com",
+    "project_id": "count-day-e89b0",
+    "storage_bucket": "count-day-e89b0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:101971802147:android:c271a968ba4247c7261996",
+        "android_client_info": {
+          "package_name": "com.steve.countday"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "101971802147-4m2bn0c6s5c68n3slask82lk272gfoat.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0yYleZ1eW2bCwXkc1ShAQM32NYFlkZMk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "101971802147-4m2bn0c6s5c68n3slask82lk272gfoat.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

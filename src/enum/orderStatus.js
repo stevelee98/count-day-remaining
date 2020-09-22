@@ -1,0 +1,7 @@
+export default OrderStatus = {
+    WAITING_FOR_CONFIRMATION: 0,
+    CONFIRMED: 1,
+    CANCELED_BY_SHOP: 2,
+    CANCELED_BY_BUYER: 3,
+    COMPLETED: 4
+}
