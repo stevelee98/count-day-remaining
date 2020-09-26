@@ -6,6 +6,7 @@ import { localizes } from 'locales/i18n';
 
 export default class DateUtil {
   static FORMAT_DATE = 'DD/MM/YYYY';
+  static FORMAT_DAY_TIME = 'DD-MM-YYYY';
   static FORMAT_DATE_SQL = 'YYYY-MM-DD';
   static FORMAT_DATE_TIME_ZONE = 'YYYY-MM-DD HH:mm:ss.SSSZZZ';
   // ZONE T => convert to timesStamp

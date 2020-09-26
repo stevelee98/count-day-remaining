@@ -47,7 +47,7 @@ export const Colors = {
     COLOR_WHITE_DISABLE: '#e5e5e5',
     COLOR_TURQUOISE: '#3ACCE1',
     COLOR_GOLD: '#FFD700',
-    COLOR_GREEN: '#00FF00',
+    COLOR_GREEN: '#A8E349',
     COLOR_PINK: '#FFC0CB',
     COLOR_VIOLET: '#8A2BE2',
     COLOR_YELLOW: '#FFFF00',

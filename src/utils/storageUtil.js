@@ -12,7 +12,8 @@ export default class StorageUtil {
     static NOTIFICATION_ID = 'notificationId';
     static LOGIN_INFO = 'loginInfo';
     static LANGUAGE = 'language';
-    static LIST_COUNT_DOWN = 'listCountDown'
+    static LIST_EVENT = 'listEvent';
+    static NOTE_PER_DAY_BY_EVENT = 'notePerDayByEvent';
 
     /**
      * Store data
