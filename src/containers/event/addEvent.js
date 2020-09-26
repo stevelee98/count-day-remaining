@@ -35,6 +35,7 @@ import ic_instagram_black from 'images/ic_instagram_black.png';
 
 import styles from './styles';
 import ModalPopup from 'components/modalPopup';
+import Event from '../entity/event';
 
 const CANCEL_INDEX = 2;
 const FILE_SELECTOR = [localizes("camera"), localizes("image"), localizes("cancel")];
@@ -57,11 +58,13 @@ export class AddEvent extends BaseView {
             resource: null,
             visibleDialog: false,
             loading: false,
-            success: false
+            success: false,
+            titleLoading: null
         }
         this.url = null;
-        let { callBack } = this.props.route.params;
+        let { callBack, event } = this.props.route.params;
         this.callBack = callBack;
+        this.event = event && event;
     }
 
     componentDidMount = () => {
@@ -72,6 +75,17 @@ export class AddEvent extends BaseView {
             BackHandler.removeEventListener("hardwareBackPress", this.handlerBackButton);
         });
         this.getProfile();
+        this.handleEditEvent()
+    }
+
+    handleEditEvent = () => {
+        if (this.event == null) return null;
+        this.setState({
+            title: this.event.title,
+            note: this.event.note,
+            dayEvent: this.event.dayEvent,
+            resource: this.event.resource
+        })
     }
 
     getProfile = async () => {
@@ -120,29 +134,47 @@ export class AddEvent extends BaseView {
         } else if (dayEvent == null || (dayEvent != null && dayEvent.trim() === "")) {
             this.showMessage("Ngày sự kiện không được bỏ trống")
         } else if (this.state.resource != null) {
-            this.setState({ loading: true })
-            this.uploadImage(this.state.resource);
+            if (this.event != null) {
+                if (this.state.resource.indexOf('http') != -1) {
+                    this.onEditEvent()
+                    this.setState({ loading: true, titleLoading: 'Chờ tí nha' })
+                } else {
+                    this.uploadImage(this.state.resource);
+                    this.setState({ loading: true, titleLoading: 'Đang tải ảnh lên' })
+                }
+            } else {
+                this.uploadImage(this.state.resource);
+                this.setState({ loading: true, titleLoading: 'Đang tải ảnh lên' })
+            }
         } else {
-            this.setState({ loading: true })
-            this.onSaveEvent()
+            this.setState({ loading: true, titleLoading: 'Chờ tí nha' })
+            if (this.event != null) {
+                this.onEditEvent()
+            } else {
+                this.onSaveEvent()
+            }
         }
     }
 
-    onSaveEvent = async (imagePath) => {
-        let event = await StorageUtil.retrieveItem(StorageUtil.LIST_COUNT_DOWN);
+    onSaveEvent = async (imagePath = null) => {
+        let id = new Date();
+        let event = await StorageUtil.retrieveItem(StorageUtil.LIST_EVENT);
+        // let newEvent = new Event((id.getTime()).toString(), this.state.title, this.state.note, this.state.dayEvent, imagePath)
         let newEvent = {
+            id: (id.getTime()).toString(),
             title: this.state.title,
             note: this.state.note,
             dayEvent: this.state.dayEvent,
-            resource: imagePath
+            resource: imagePath,
+            createdAt: DateUtil.now()
         }
         if (event == null) {
             let arr = [{ ...newEvent }];
             event = arr;
         } else {
-            event.push({ ...newEvent });
+            event.unshift({ ...newEvent });
         }
-        let result = await StorageUtil.storeItem(StorageUtil.LIST_COUNT_DOWN, event);
+        let result = await StorageUtil.storeItem(StorageUtil.LIST_EVENT, event);
         if (this.state.user == null) {
             this.setState({
                 loading: false,
@@ -167,7 +199,11 @@ export class AddEvent extends BaseView {
                         console.log("upload image to firebase zzzzz", url)
                         if (this.url !== url) {
                             this.url = url;
-                            this.onSaveEvent(url);
+                            if (this.event != null) {//edit
+                                this.onEditEvent(url)
+                            } else {
+                                this.onSaveEvent(url);
+                            }
                         }
                     });
                 }
@@ -305,6 +341,41 @@ export class AddEvent extends BaseView {
         this.onBack()
     }
 
+    onEditEvent = async (resource = this.event.resource) => {
+        let events = await StorageUtil.retrieveItem(StorageUtil.LIST_EVENT)
+        let newEvent = {
+            id: this.event.id,
+            title: this.state.title,
+            note: this.state.note,
+            resource: resource,
+            dayEvent: this.state.dayEvent
+        }
+        if (events != null) {
+            let callBackItem = null
+            events.map(item => {
+                if (item.id == newEvent.id) {
+                    item.dayEvent = newEvent.dayEvent;
+                    item.title = newEvent.title;
+                    item.note = this.state.note;
+                    item.resource = resource;
+                    item.updatedAt = DateUtil.now()
+                }
+            });
+            await StorageUtil.storeItem(StorageUtil.LIST_EVENT, events);
+            if (this.callBack) {
+                this.callBack(newEvent)
+            }
+            this.onBack()
+            setTimeout(() => {
+                this.props.refreshHome()
+            })
+            this.setState({
+                loading: false,
+                success: true
+            })
+        }
+    }
+
     render() {
         return (
             <Container style={styles.container}>
@@ -345,7 +416,7 @@ export class AddEvent extends BaseView {
                                 onChangeText={(note) => { this.setState({ note }) }}
                                 returnKeyType={'next'}
                                 inputNormalStyle={{ color: Colors.COLOR_TEXT }}
-                                onPressPlaceHolder={() => { this.note.focus() }}    
+                                onPressPlaceHolder={() => { this.note.focus() }}
                             />
                             <View style={{ flexDirection: 'row', alignItems: 'flex-end', marginHorizontal: Constants.MARGIN_X_LARGE }}>
                                 <Text style={{ ...commonStyles.text400, marginLeft: 2 }}>Chọn ngày sự kiện</Text>
@@ -447,8 +518,8 @@ export class AddEvent extends BaseView {
                     </Content>
                     {this.renderFileSelectionDialog()}
                     <CalendarScreen
-                        minimumDate={new Date(new Date().setDate(DateUtil.now().getDate() + 1))}
-                        dateCurrent={DateUtil.now()}
+                        minimumDate={this.event == null ? new Date(new Date().setDate(DateUtil.now().getDate() + 1)) : new Date(new Date().setDate(DateUtil.now().getDate()))}
+                        dateCurrent={this.event ? new Date(this.event.dayEvent) : DateUtil.now()}
                         chooseDate={this.chooseDate}
                         ref={ref => (this.showCalendar = ref)}
                     />
@@ -466,7 +537,7 @@ export class AddEvent extends BaseView {
             <View style={styles.viewUploading}>
                 <View style={styles.viewLoader}>
                     <Spinner color={Colors.COLOR_PRIMARY} />
-                    <Text style={commonStyles.text}>Đang tải hình ảnh lên</Text>
+                    <Text style={commonStyles.text}>{this.state.titleLoading}</Text>
                 </View>
             </View> : null
     }

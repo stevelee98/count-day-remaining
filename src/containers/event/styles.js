@@ -34,4 +34,15 @@ export default {
         zIndex: 1000,
         backgroundColor: Colors.COLOR_BLACK_OPACITY_50
     },
+    resource: {
+        width: Constants.MAX_WIDTH,
+        height: Constants.MAX_WIDTH * (9 / 12),
+        resizeMode: 'cover'
+    },
+    imgGradient: {
+        position: 'absolute',
+        bottom: 0,
+        width: Constants.MAX_WIDTH,
+        height: Constants.MAX_WIDTH * 0.7
+    },
 }
