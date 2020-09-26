@@ -19,6 +19,7 @@ export const ActionEvent = {
     RESET_PASSWORD: 'resetPassword',
     LOGIN_SOCIAL: 'loginViaSocial',
     PUSH_NOTIFICATION: 'pushNotification',
+    REFRESH_HOME: 'refreshHome'
 };
 
 export function getActionSuccess(action) {

@@ -15,6 +15,8 @@ import ChangePasswordView from 'containers/changePassword/changePasswordView';
 import UserProfileView from 'containers/profile/info/userProfileView';
 import LoginView from 'containers/login/loginView';
 import AddEvent from 'containers/event/addEvent';
+import EventDetail from 'containers/event/eventDetail';
+import ProfileView from 'containers/profile/profileView'
 
 import { enableScreens } from 'react-native-screens';
 
@@ -46,6 +48,8 @@ const AppNavigator = () => {
                 <Stack.Screen name="ConfirmPassword" component={ConfirmPasswordView} />
                 <Stack.Screen name="UserProfile" component={UserProfileView} />
                 <Stack.Screen name="AddEvent" component={AddEvent} />
+                <Stack.Screen name="EventDetail" component={EventDetail} />
+                <Stack.Screen name="Profile" component={ProfileView} />
             </Stack.Navigator>
         </NavigationContainer>
     )

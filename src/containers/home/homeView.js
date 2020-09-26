@@ -39,6 +39,7 @@ import ImageLoader from 'components/imageLoader';
 import img_gradient from 'images/img_gradient.png';
 import ActionButton from 'react-native-action-button';
 import ic_add_blue from 'images/ic_add_blue.png';
+import img_bg_event from 'images/img_bg_event.jpeg';
 import { async } from "rxjs";
 
 console.disableYellowBox = true;
@@ -124,8 +125,8 @@ class HomeView extends BaseView {
     async componentDidMount() {
         super.componentDidMount();
         BackHandler.addEventListener("hardwareBackPress", () => { this.handlerBackButton });
-        // this.getTimeCommon();
-        this.getBanner()
+        this.getBanner();
+        this.getBannerTime()
         StorageUtil.retrieveItem(StorageUtil.VERSION).then((version) => {
             this.setState({
                 appVersion: version
@@ -134,25 +135,27 @@ class HomeView extends BaseView {
             this.saveException(error, 'componentDidMount')
         })
         this.getProfile();
-        // if (!global.logout) {
-        //     this.getProfile();
-        // }
+        if (!global.logout) {
+            this.getProfile();
+        }
 
         // let countDown = [
         //     {
+        //         id: '123456',
         //         title: 'Đếm ngày nhận lương', 
         //         note: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500',
         //         resource: 'https://cdn2.eyeem.com/thumb/314f1817e5acadb912ce87c018b1dd76a8141931-1521038537976/w/1280',
         //         dayEvent: '2020-10-10'
         //     },
         //     {
+        //         id: '123789',
         //         title: 'Đếm ngày đi Đà Lạt', 
         //         note: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500',
         //         resource: 'https://vcdn1-dulich.vnecdn.net/2019/05/23/12-1558593963.jpg?w=1200&h=0&q=100&dpr=1&fit=crop&s=sEbfKs9N6CgwUja6gayIJA',
         //         dayEvent: '2020-10-25'
         //     },
         // ]
-        // StorageUtil.storeItem(StorageUtil.LIST_COUNT_DOWN, countDown)
+        // StorageUtil.storeItem(StorageUtil.LIST_EVENT, countDown)
         this.getListEvent()
     }
 
@@ -160,6 +163,8 @@ class HomeView extends BaseView {
         this.state.refreshing = false;
         this.getProfile()
         this.getBanner()
+        this.data = [];
+        this.state.dataTime = []
         this.getListEvent()
     }
 
@@ -168,8 +173,9 @@ class HomeView extends BaseView {
     }
 
     getListEvent = async () => {
-        let events = await StorageUtil.retrieveItem(StorageUtil.LIST_COUNT_DOWN);
+        let events = await StorageUtil.retrieveItem(StorageUtil.LIST_EVENT);
         if (events != null) {
+            this.data = []
             this.data = events
             this.setState({
                 dataTime: events
@@ -179,7 +185,7 @@ class HomeView extends BaseView {
         }
     }
 
-    getTimeCommon = (timeEvent) => {
+    getBannerTime = (timeEvent) => {
         let now = new Date();
         this.banner.forEach((item, index) => {
             let dayEvent = new Date(timeEvent);
@@ -191,7 +197,7 @@ class HomeView extends BaseView {
                         this.convertMillisecond(this.diffs[index], index)
                         this.diffs[index] = this.diffs[index] - 1000
                     }
-                }, 1000))
+                }, 10000))
             }
         })
     }
@@ -328,10 +334,13 @@ class HomeView extends BaseView {
                         data.forEach(element => {
                             if (element != null) {
                                 this.banner.push({ ...element });
-                                this.getTimeCommon(element.dayEvent)
+                                this.getBannerTime(element.dayEvent)
                             }
                         });
                     }
+                } else if (this.props.action == ActionEvent.REFRESH_HOME) {
+                    console.log("refresh home");
+                    this.handleRefresh()
                 }
                 this.state.refreshing = false
             } else {
@@ -385,7 +394,7 @@ class HomeView extends BaseView {
                 buttonColor={Colors.COLOR_WHITE}
                 shadowStyle={styles.fabBtn}
                 renderIcon={() => <Image source={ic_add_blue}></Image>}
-                onPress={() => { this.props.navigation.navigate("AddEvent", {callBack: this.handleRefresh}) }}
+                onPress={() => { this.props.navigation.navigate("AddEvent", { callBack: this.handleRefresh }) }}
             />
         );
     }
@@ -411,11 +420,12 @@ class HomeView extends BaseView {
             <ImageBackground
                 key={index}
                 onPress={() => { }}
-                source={{ uri: item.resource }}
+                source={item.resource != null? { uri: item.resource } : img_bg_event}
                 imageStyle={styles.imgBackground}
                 style={styles.itemCountDown}
             >
                 <Pressable
+                    onPress={() => { this.props.navigation.navigate("EventDetail", { event: item }) }}
                     android_ripple={{
                         color: Colors.COLOR_WHITE,
                         borderless: false,

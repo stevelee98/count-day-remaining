@@ -28,3 +28,12 @@ export const pushNotificationSuccess = data => ({
     type: getActionSuccess(ActionEvent.PUSH_NOTIFICATION),
     payload: { data }
 })
+
+export const refreshHome = () => ({
+    type: ActionEvent.REFRESH_HOME
+})
+
+export const refreshHomeSuccess = data => ({
+    type: getActionSuccess(ActionEvent.REFRESH_HOME),
+    payload: { data }
+})

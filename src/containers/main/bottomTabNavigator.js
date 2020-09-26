@@ -5,6 +5,7 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 const Tab = createMaterialBottomTabNavigator();
 
 import HomeView from 'containers/home/homeView';
+import ProfileView from 'containers/profile/profileView';
 
 // import icons
 import { Colors } from 'values/colors';
@@ -35,7 +36,7 @@ const BottomTabNavigator = ({ badgeCount }) => {
 				name="TabHome"
 				component={HomeView}
 				options={{
-					tabBarLabel: "Home",
+					tabBarLabel: "Trang chủ",
 					tabBarIcon: ({ focused, color, size }) => (
 						<Image source={focused ? ic_home_blue : ic_home_black} />
 					),
@@ -44,9 +45,9 @@ const BottomTabNavigator = ({ badgeCount }) => {
 			/>
 			<Tab.Screen
 				name="TabUser"
-				component={HomeView}
+				component={ProfileView}
 				options={{
-					tabBarLabel: "User",
+					tabBarLabel: "Tài khoản",
 					tabBarIcon: ({ focused, color, size }) => (
 						<Image source={focused ? ic_user_blue : ic_user_black} />
 					),

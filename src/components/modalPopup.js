@@ -128,8 +128,9 @@ export default class ModalPopup extends BaseView {
                             }
                             }>
                             <Text style={[commonStyles.textBold, {
+                                ...Fonts.FONT_500,
                                 color: Colors.COLOR_BLUE_SEA, margin: 0,
-                                fontSize: Fonts.FONT_SIZE_X_MEDIUM
+                                fontSize: Fonts.FONT_SIZE_MEDIUM
                             }]}>
                                 {localizes("yes")}
                             </Text>
@@ -147,8 +148,9 @@ export default class ModalPopup extends BaseView {
                                 }
                                 }>
                                 <Text style={[commonStyles.textBold, {
+                                    ...Fonts.FONT_500,
                                     color: Colors.COLOR_BLUE_SEA,
-                                    margin: 0, fontSize: Fonts.FONT_SIZE_X_MEDIUM
+                                    margin: 0, fontSize: Fonts.FONT_SIZE_MEDIUM
                                 }]}>
                                     {localizes("reject")}
                                 </Text>

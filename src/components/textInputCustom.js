@@ -372,7 +372,7 @@ export default class TextInputCustom extends Component {
                         style={[commonStyles.text400, {
                             flex: 1,
                             margin: 0,
-                            marginBottom: - 6
+                            marginBottom: - 6,
                         }, inputNormalStyle]}
                         placeholder={null}
                         onChangeText={this.changeText.bind(this)}
