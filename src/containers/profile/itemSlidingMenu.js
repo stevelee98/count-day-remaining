@@ -25,12 +25,9 @@ class ItemSlidingMenu extends PureComponent {
 
                 }}
             >
-                <View style={{
-                    ...commonStyles.cardView,
-                    flexDirection: 'row', justifyContent:'center'
-                }}>
-                    {item.icon != null && <Image style={{width: 48, height: 48}} source={item.icon} />}
-                    <Text style={{ ...commonStyles.text400, ...Fonts.FONT_500, fontSize: Fonts.FONT_SIZE_XX_MEDIUM }} >{item.name}</Text>
+                <View style={styles.viewItemMenu}>
+                    {item.icon != null && <Image style={styles.imgMenu} source={item.icon} />}
+                    <Text style={styles.titleMenu} >{item.name}</Text>
                 </View>
             </TouchableOpacity>
         );

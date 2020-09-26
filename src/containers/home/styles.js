@@ -66,7 +66,7 @@ export default {
         ...Fonts.FONT_600,
         textAlign: 'center',
         color: Colors.COLOR_WHITE,
-        fontSize: Fonts.FONT_SIZE_LARGE
+        fontSize: Fonts.FONT_SIZE_X_LARGE
     },
     bannerTime: {
         flexDirection: 'row',
@@ -95,7 +95,7 @@ export default {
     txtTimeList: {
         ...commonStyles.text,
         margin: 0, padding: 0,
-        textAlign:'left',
+        textAlign: 'left',
         color: Colors.COLOR_WHITE,
         fontSize: Fonts.FONT_SIZE_X_LARGE
     },
@@ -125,6 +125,11 @@ export default {
         fontSize: Fonts.FONT_SIZE_LARGE,
         color: Colors.COLOR_WHITE
     },
+    noteItem: {
+        ...Fonts.FONT_400,
+        fontSize: Fonts.FONT_SIZE_XX_SMALL,
+        color: Colors.COLOR_WHITE
+    },
     appName: {
         ...commonStyles.text,
         color: Colors.COLOR_WHITE,
@@ -132,10 +137,5 @@ export default {
         position: 'absolute',
         top: 16, left: 16
     },
-    noteItem: {
-        ...Fonts.FONT_400,
-        fontSize:Fonts.FONT_SIZE_XX_SMALL,
-        color: Colors.COLOR_WHITE
-    }
 };
 

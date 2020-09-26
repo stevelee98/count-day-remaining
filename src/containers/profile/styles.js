@@ -15,4 +15,21 @@ export default (styles = {
 		alignItems: "stretch",
 		backgroundColor: Colors.COLOR_WHITE
 	},
+	titleMenu: {
+		...commonStyles.text400,
+		...Fonts.FONT_500,
+		fontSize: Fonts.FONT_SIZE_XX_MEDIUM,
+		flex: 1,
+		marginHorizontal:Constants.MARGIN_X_LARGE
+	},
+	viewItemMenu: {
+		...commonStyles.cardView,
+		flexDirection: 'row',
+		alignItems: 'center',
+	},
+	imgMenu: {
+		width: 36,
+		height: 36,
+		marginRight: Constants.MARGIN_X_LARGE
+	}
 });

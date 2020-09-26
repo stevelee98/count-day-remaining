@@ -43,6 +43,50 @@ export default {
         position: 'absolute',
         bottom: 0,
         width: Constants.MAX_WIDTH,
-        height: Constants.MAX_WIDTH * 0.7
+        height: Constants.MAX_WIDTH * 0.9
+    },
+    itemTimeList: {
+        alignItems: 'flex-start',
+        justifyContent: 'center',
+        marginRight: Constants.MARGIN_X_LARGE,
+        marginBottom: Constants.MARGIN_X_LARGE
+    },
+    txtTimeList: {
+        ...commonStyles.text,
+        margin: 0, padding: 0,
+        textAlign: 'left',
+        color: Colors.COLOR_WHITE,
+        fontSize: Fonts.FONT_SIZE_X_LARGE
+    },
+    txtTimeTypeList: {
+        ...commonStyles.textSmall,
+        color: Colors.COLOR_WHITE,
+    },
+    imgBackground: {
+        borderRadius: Constants.CORNER_RADIUS * 2,
+        opacity: 0.7,
+        backgroundColor: Colors.COLOR_BLACK,
+    },
+    itemCountDown: {
+        ...commonStyles.shadowOffset,
+        borderRadius: Constants.CORNER_RADIUS * 2,
+        backgroundColor: Colors.COLOR_DRK_GREY,
+        marginTop: Constants.MARGIN_LARGE,
+        marginBottom: Constants.MARGIN_LARGE,
+        marginHorizontal: Constants.MARGIN_X_LARGE
+    },
+    btnItem: {
+        flex: 1,
+        padding: Constants.PADDING_X_LARGE,
+    },
+    titleItem: {
+        ...Fonts.FONT_600,
+        fontSize: Fonts.FONT_SIZE_LARGE,
+        color: Colors.COLOR_WHITE
+    },
+    noteItem: {
+        ...Fonts.FONT_400,
+        fontSize: Fonts.FONT_SIZE_XX_SMALL,
+        color: Colors.COLOR_WHITE
     },
 }

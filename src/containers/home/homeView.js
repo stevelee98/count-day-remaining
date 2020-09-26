@@ -41,6 +41,7 @@ import ActionButton from 'react-native-action-button';
 import ic_add_blue from 'images/ic_add_blue.png';
 import img_bg_event from 'images/img_bg_event.jpeg';
 import { async } from "rxjs";
+import ItemEvent from 'containers/event/itemEvent';
 
 console.disableYellowBox = true;
 if (
@@ -145,14 +146,24 @@ class HomeView extends BaseView {
         //         title: 'Đếm ngày nhận lương', 
         //         note: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500',
         //         resource: 'https://cdn2.eyeem.com/thumb/314f1817e5acadb912ce87c018b1dd76a8141931-1521038537976/w/1280',
-        //         dayEvent: '2020-10-10'
+        //         dayEvent: '2020-9-10',
+        //         createdAt: '2020-08-01T12:29:41.092Z'
         //     },
         //     {
         //         id: '123789',
         //         title: 'Đếm ngày đi Đà Lạt', 
         //         note: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500',
         //         resource: 'https://vcdn1-dulich.vnecdn.net/2019/05/23/12-1558593963.jpg?w=1200&h=0&q=100&dpr=1&fit=crop&s=sEbfKs9N6CgwUja6gayIJA',
-        //         dayEvent: '2020-10-25'
+        //         dayEvent: '2020-8-25',
+        //         createdAt: '2020-07-25T12:29:41.092Z'
+        //     },
+        //     {
+        //         id: '1237892',
+        //         title: 'Đếm ngày đi Đà Lạt', 
+        //         note: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500',
+        //         resource: 'https://firebasestorage.googleapis.com/v0/b/count-day-e89b0.appspot.com/o/INE%2F1600747823090.JPEG?alt=media&token=c910a231-0e28-43f7-b6b2-b449481eb10d',
+        //         dayEvent: '2020-10-25',
+        //         createdAt: '2020-10-25T12:29:41.092Z'
         //     },
         // ]
         // StorageUtil.storeItem(StorageUtil.LIST_EVENT, countDown)
@@ -175,11 +186,11 @@ class HomeView extends BaseView {
     getListEvent = async () => {
         let events = await StorageUtil.retrieveItem(StorageUtil.LIST_EVENT);
         if (events != null) {
-            this.data = []
-            this.data = events
-            this.setState({
-                dataTime: events
-            })
+            // this.data = []
+            // this.data = events
+            // this.setState({
+            // dataTime: events
+            // })
             console.log("data get from storage", events);
             this.getTimeData(events)
         }
@@ -197,7 +208,7 @@ class HomeView extends BaseView {
                         this.convertMillisecond(this.diffs[index], index)
                         this.diffs[index] = this.diffs[index] - 1000
                     }
-                }, 10000))
+                }, 100000))
             }
         })
     }
@@ -238,6 +249,7 @@ class HomeView extends BaseView {
                 }
             }
         })
+
     }
 
     convertMillisecondData = (item, index, millisecond) => {
@@ -400,48 +412,36 @@ class HomeView extends BaseView {
     }
 
     renderListTimeCountDown = () => {
+        console.log("this.dataTime", this.dataTime);
         return (
             <FlatListCustom
                 onRef={(ref) => { this.flatListRef = ref }}
                 contentContainerStyle={{ flex: 1 }}
-                data={this.state.dataTime}
+                data={this.dataTime}
                 renderItem={this.renderItem.bind(this)}
                 keyExtractor={item => item.id}
                 horizontal={false}
                 showsVerticalScrollIndicator={false}
                 isShowEmpty={this.state.dataTime.length == 0}
-                textForEmpty={'Chưa có dữ liệu'}
+                textForEmpty={'Nhấn dấu cộng màu xanh để thêm sự kiện đếm ngược nhé :)'}
+                styleTextEmpty={{ textAlign: 'center', marginHorizontal: Constants.MARGIN_XX_LARGE }}
             />
         )
     }
 
     renderItem = (item, index) => {
         return (
-            <ImageBackground
-                key={index}
-                onPress={() => { }}
-                source={item.resource != null? { uri: item.resource } : img_bg_event}
-                imageStyle={styles.imgBackground}
-                style={styles.itemCountDown}
-            >
-                <Pressable
-                    onPress={() => { this.props.navigation.navigate("EventDetail", { event: item }) }}
-                    android_ripple={{
-                        color: Colors.COLOR_WHITE,
-                        borderless: false,
-                    }}
-                    style={styles.btnItem}>
-                    <View style={{ flexDirection: 'row' }}>
-                        <View style={styles.itemTimeList}>
-                            <Text style={styles.txtTimeList}>D - {item.dayAlert}</Text>
-                            <Text style={styles.txtTimeTypeList}>{DateUtil.convertFromFormatToFormat(item.dayEvent, DateUtil.FORMAT_DATE_SQL, DateUtil.FORMAT_DATE)}</Text>
-                        </View>
-                    </View>
-                    <Text numberOfLines={2} style={styles.titleItem}>{item.title}</Text>
-                    <Text numberOfLines={2} style={styles.noteItem}>{item.note}</Text>
-                </Pressable>
-            </ImageBackground>
+            <ItemEvent
+                item={item}
+                index={index}
+                length={this.dataTime.length}
+                onPress={this.onPressEvent}
+            />
         )
+    }
+
+    onPressEvent = (item) =>{
+        this.props.navigation.navigate("EventDetail", { event: item }) 
     }
 
     render() {

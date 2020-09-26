@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {
     View, Text, BackHandler, RefreshControl, Image, TextInput,
-    StatusBar, Pressable, PermissionsAndroid, Keyboard
+    StatusBar, Pressable, PermissionsAndroid, Keyboard, ImageBackground
 } from 'react-native';
 import {
     Container, Content, Root, Spinner
@@ -26,10 +26,11 @@ import DateUtil from 'utils/dateUtil';
 import storage from '@react-native-firebase/storage';
 import FlatListCustom from "components/flatListCustom";
 import styles from './styles';
-import ItemSlidingMenu from './itemSlidingMenu';
-import ListMenu from './listMenu';
+import ItemSlidingMenu from '../profile/itemSlidingMenu';
+import ListMenu from '../profile/listMenu';
+import ItemEventHistory from './itemEventHistory';
 
-export class ProfileView extends BaseView {
+export class EventHistoryView extends BaseView {
 
     constructor(props) {
         super(props);
@@ -39,7 +40,7 @@ export class ProfileView extends BaseView {
             enableRefresh: true,
             events: []
         }
-        this.events = []
+        this.data = []
         this.user = null
         this.menus = ListMenu;
     }
@@ -52,6 +53,7 @@ export class ProfileView extends BaseView {
             BackHandler.removeEventListener("hardwareBackPress", this.handlerBackButton);
         });
         this.getProfile();
+        this.getListEvent()
     }
 
 
@@ -68,26 +70,28 @@ export class ProfileView extends BaseView {
     getListEvent = async () => {
         let events = await StorageUtil.retrieveItem(StorageUtil.LIST_EVENT);
         if (events != null) {
-            // this.data = []
-            // this.data = events
-            // this.setState({
-            //     data: events
-            // })
             console.log("data get from storage FROM PROFILE VIEW:", events);
             this.getTimeData(events)
         }
     }
 
     getTimeData = (data) => {
-        let now = new Date();
+        let now = new Date()
         data.forEach((item, index) => {
             if (item) {
+                let createdTime = new Date(item.createdAt);
                 let dayEvent = new Date(item.dayEvent);
-                let diff = dayEvent.getTime() - now.getTime();
-                if (diff <= 0) {
+                let diff = dayEvent.getTime() - createdTime.getTime();
+                let diffFromToday = dayEvent.getTime() - now.getTime();
+                console.log("diff:    ", diff);
+                if (diff >= 0 && diffFromToday <= 0) {
                     this.convertMillisecondData(item, index, diff)
                 }
             }
+        })
+        console.log("DATA FROM EVENT HISTORY", this.data)
+        this.setState({
+            ok: true
         })
     }
 
@@ -125,31 +129,38 @@ export class ProfileView extends BaseView {
 
     }
 
-    renderMenuUser() {
+
+    renderListHistory = () => {
+        console.log("this.dataTime", this.data);
         return (
-            <View>
-                <Text style={styles.titleMenu}>Cá nhân</Text>
-                <FlatListCustom
-                    horizontal={false}
-                    data={this.menus}
-                    itemPerRow={1}
-                    renderItem={this.renderItemSlide}
-                    showsVerticalScrollIndicator={false}
-                />
-            </View>
-        );
+            <FlatListCustom
+                onRef={(ref) => { this.flatListRef = ref }}
+                contentContainerStyle={{ flex: 1 }}
+                data={this.data}
+                renderItem={this.renderItem.bind(this)}
+                keyExtractor={item => item.id}
+                horizontal={false}
+                showsVerticalScrollIndicator={false}
+                isShowEmpty={this.data.length == 0}
+                textForEmpty={'Nhấn dấu cộng màu xanh để thêm sự kiện đếm ngược nhé :)'}
+                styleTextEmpty={{ textAlign: 'center', marginHorizontal: Constants.MARGIN_XX_LARGE }}
+            />
+        )
     }
 
-    renderItemSlide = (item, index, separators) => {
+    renderItem = (item, index) => {
         return (
-            <ItemSlidingMenu
+            <ItemEventHistory
                 item={item}
                 index={index}
-                navigation={this.props.navigation}
-                userInfo={this.user}
-                callBack={this.getProfile}
+                length={this.data.length}
+                omPress={this.onPressEvent}
             />
-        );
+        )
+    }
+    
+    onPressEvent = (item) =>{
+        this.props.navigation.navigate("EventDetail", { event: item }) 
     }
 
     render() {
@@ -157,14 +168,15 @@ export class ProfileView extends BaseView {
         return (
             <Container style={styles.container}>
                 <Root>
+                    <Header
+                        barStyle={'dark-content'}
+                        title={"Các sự kiện đã qua"}
+                        onBack={() => { this.onBack() }}
+                        headerColor={'orange'} />
                     <Content
+                        scrollEventThrottle={1}
                         showsVerticalScrollIndicator={false}
-                        ref={e => { this.fScroll = e }}
-                        contentContainerStyle={{
-                            flexGrow: 1,
-                            // paddingVertical: Constants.PADDING_LARGE
-                        }}
-                        style={{ flex: 1, marginTop: 48 }}
+                        contentContainerStyle={styles.containerContent}
                         refreshControl={
                             <RefreshControl
                                 progressViewOffset={Constants.HEIGHT_HEADER_OFFSET_REFRESH}
@@ -172,10 +184,11 @@ export class ProfileView extends BaseView {
                                 onRefresh={this.handleRefresh}
                             />
                         }>
-                        {this.renderMenuUser()}
+                        {this.renderListHistory()}
                     </Content>
                     {this.showLoadingBar(this.props.isLoading)}
                 </Root>
+                <StatusBar translucent={false} />
             </Container>
         );
     }
@@ -189,4 +202,4 @@ const mapDispatchToProps = {
 
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileView)
+export default connect(mapStateToProps, mapDispatchToProps)(EventHistoryView)

@@ -6,6 +6,7 @@ const Tab = createMaterialBottomTabNavigator();
 
 import HomeView from 'containers/home/homeView';
 import ProfileView from 'containers/profile/profileView';
+import EventHistoryView from 'containers/event/eventHistoryView';
 
 // import icons
 import { Colors } from 'values/colors';
@@ -45,9 +46,9 @@ const BottomTabNavigator = ({ badgeCount }) => {
 			/>
 			<Tab.Screen
 				name="TabUser"
-				component={ProfileView}
+				component={EventHistoryView}
 				options={{
-					tabBarLabel: "Tài khoản",
+					tabBarLabel: "Cá nhân",
 					tabBarIcon: ({ focused, color, size }) => (
 						<Image source={focused ? ic_user_blue : ic_user_black} />
 					),

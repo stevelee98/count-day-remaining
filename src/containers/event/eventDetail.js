@@ -193,17 +193,17 @@ export class EventDetail extends BaseView {
                     style={styles.resource} />
                 <Image source={img_gradient} style={styles.imgGradient} />
                 <View style={{ position: 'absolute', bottom: 32, left: 24 }}>
-                    <Text style={{ ...commonStyles.text400, color: Colors.COLOR_WHITE }}>Còn
+                    <Text style={{ ...commonStyles.text500, color: Colors.COLOR_WHITE }}>Còn
                         <Text style={{
                             ...commonStyles.text,
                             color: Colors.COLOR_WHITE,
                             fontSize: 36,
                             ...Fonts.FONT_600
-                        }}> {this.state.dayAlert} <Text style={{ ...commonStyles.text400, color: Colors.COLOR_WHITE }}>Ngày</Text>
+                        }}> {this.state.dayAlert} <Text style={{ ...commonStyles.text500, color: Colors.COLOR_WHITE }}>Ngày</Text>
                         </Text></Text>
-                    <Text style={{ ...commonStyles.text400, color: Colors.COLOR_WHITE }}>Đến ngày {DateUtil.convertFromFormatToFormat(this.event.dayEvent, DateUtil.FORMAT_DATE_SQL, DateUtil.FORMAT_DAY_TIME)}</Text>
+                    <Text style={{ ...commonStyles.text500, color: Colors.COLOR_WHITE }}>Đến ngày {DateUtil.convertFromFormatToFormat(this.event.dayEvent, DateUtil.FORMAT_DATE_SQL, DateUtil.FORMAT_DAY_TIME)}</Text>
                     <Text style={{
-                        ...Fonts.FONT_500,
+                        ...Fonts.FONT_600,
                         color: Colors.COLOR_WHITE,
                         fontSize: Fonts.FONT_SIZE_LARGE,
                         marginTop: Constants.MARGIN_LARGE
@@ -237,8 +237,6 @@ export class EventDetail extends BaseView {
                 keyExtractor={item => item.id}
                 horizontal={false}
                 showsVerticalScrollIndicator={false}
-                isShowEmpty={this.notes.length == 0}
-                textForEmpty={'Chưa có dữ liệu'}
             />
         )
     }
@@ -342,7 +340,7 @@ export class EventDetail extends BaseView {
                                 <Text style={{ ...Fonts.FONT_500, fontSize: Fonts.FONT_SIZE_X_MEDIUM }}>Hôm nay bạn nghĩ gì ?</Text>
                                 <TextInput
                                     ref={note => this.note = note}
-                                    style={[commonStyles.text400, {
+                                    style={[commonStyles.text500, {
                                         flex: 1,
                                         margin: 0,
                                         borderBottomWidth: 0.8,

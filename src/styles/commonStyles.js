@@ -27,6 +27,11 @@ export default {
         fontSize: Fonts.FONT_SIZE_X_MEDIUM,
         ...Fonts.FONT_400
     },
+    text500: {
+        color: Colors.COLOR_TEXT,
+        fontSize: Fonts.FONT_SIZE_X_MEDIUM,
+        ...Fonts.FONT_500
+    },
     text700: {
         color: Colors.COLOR_TEXT,
         fontSize: Fonts.FONT_SIZE_X_MEDIUM,
