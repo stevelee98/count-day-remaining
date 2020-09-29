@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CountDay</string>
+    <string name="app_name">DayDay</string>
     <string name="facebook_app_id">2120383341429645</string>
     <string name="fb_login_protocol_scheme">fb2120383341429645</string>
     <string name="default_notification_channel_id" translatable="false">aaChannelId</string>

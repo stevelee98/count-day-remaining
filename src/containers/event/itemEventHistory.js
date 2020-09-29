@@ -5,6 +5,7 @@ import img_bg_event from 'images/img_bg_event.jpeg';
 import { Colors } from 'values/colors';
 import DateUtil from 'utils/dateUtil';
 import { Fonts } from 'values/fonts';
+import { Constants } from 'values/constants';
 
 class ItemEventHistory extends PureComponent {
     constructor(props) {
@@ -20,7 +21,10 @@ class ItemEventHistory extends PureComponent {
                 key={index}
                 source={item.resource != null ? { uri: item.resource } : img_bg_event}
                 imageStyle={styles.imgBackground}
-                style={styles.itemCountDown}
+                style={[styles.itemCountDown, {
+                    marginTop: index == 0 ? Constants.MARGIN_X_LARGE : 0,
+                    marginBottom: index == length ? Constants.MARGIN_X_LARGE : Constants.MARGIN_X_LARGE
+                }]}
             >
                 <Pressable
                     onPress={() => { onPress(item) }}

@@ -70,7 +70,6 @@ export class EventHistoryView extends BaseView {
     getListEvent = async () => {
         let events = await StorageUtil.retrieveItem(StorageUtil.LIST_EVENT);
         if (events != null) {
-            console.log("data get from storage FROM PROFILE VIEW:", events);
             this.getTimeData(events)
         }
     }
@@ -83,7 +82,6 @@ export class EventHistoryView extends BaseView {
                 let dayEvent = new Date(item.dayEvent);
                 let diff = dayEvent.getTime() - createdTime.getTime();
                 let diffFromToday = dayEvent.getTime() - now.getTime();
-                console.log("diff:    ", diff);
                 if (diff >= 0 && diffFromToday <= 0) {
                     this.convertMillisecondData(item, index, diff)
                 }
@@ -126,7 +124,7 @@ export class EventHistoryView extends BaseView {
     }
 
     handleRefresh = () => {
-
+        this.getListEvent()
     }
 
 
@@ -142,7 +140,7 @@ export class EventHistoryView extends BaseView {
                 horizontal={false}
                 showsVerticalScrollIndicator={false}
                 isShowEmpty={this.data.length == 0}
-                textForEmpty={'Nhấn dấu cộng màu xanh để thêm sự kiện đếm ngược nhé :)'}
+                textForEmpty={'Bạn chưa có sự kiện nào kết thúc'}
                 styleTextEmpty={{ textAlign: 'center', marginHorizontal: Constants.MARGIN_XX_LARGE }}
             />
         )
@@ -154,13 +152,13 @@ export class EventHistoryView extends BaseView {
                 item={item}
                 index={index}
                 length={this.data.length}
-                omPress={this.onPressEvent}
+                onPress={this.onPressEvent}
             />
         )
     }
     
     onPressEvent = (item) =>{
-        this.props.navigation.navigate("EventDetail", { event: item }) 
+        this.props.navigation.navigate("EventHistoryDetail", { event: item, callBack: this.handleRefresh }) 
     }
 
     render() {

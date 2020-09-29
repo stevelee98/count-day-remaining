@@ -68,6 +68,7 @@
     "react-native-modal-datetime-picker": "^8.7.1",
     "react-native-paper": "^4.1.0",
     "react-native-popup-menu": "^0.15.9",
+    "react-native-push-notification": "^6.0.0",
     "react-native-reanimated": "^1.13.0",
     "react-native-render-html": "^4.2.0",
     "react-native-root-toast": "^3.2.1",

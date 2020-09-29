@@ -146,7 +146,7 @@ class HomeView extends BaseView {
         //         title: 'Đếm ngày nhận lương', 
         //         note: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500',
         //         resource: 'https://cdn2.eyeem.com/thumb/314f1817e5acadb912ce87c018b1dd76a8141931-1521038537976/w/1280',
-        //         dayEvent: '2020-9-10',
+        //         dayEvent: '2020-09-10',
         //         createdAt: '2020-08-01T12:29:41.092Z'
         //     },
         //     {
@@ -154,7 +154,7 @@ class HomeView extends BaseView {
         //         title: 'Đếm ngày đi Đà Lạt', 
         //         note: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500',
         //         resource: 'https://vcdn1-dulich.vnecdn.net/2019/05/23/12-1558593963.jpg?w=1200&h=0&q=100&dpr=1&fit=crop&s=sEbfKs9N6CgwUja6gayIJA',
-        //         dayEvent: '2020-8-25',
+        //         dayEvent: '2020-08-25',
         //         createdAt: '2020-07-25T12:29:41.092Z'
         //     },
         //     {
@@ -176,6 +176,7 @@ class HomeView extends BaseView {
         this.getBanner()
         this.data = [];
         this.state.dataTime = []
+        this.dataTime = []
         this.getListEvent()
     }
 
@@ -208,7 +209,7 @@ class HomeView extends BaseView {
                         this.convertMillisecond(this.diffs[index], index)
                         this.diffs[index] = this.diffs[index] - 1000
                     }
-                }, 100000))
+                }, 1000))
             }
         })
     }

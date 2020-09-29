@@ -18,6 +18,7 @@ import AddEvent from 'containers/event/addEvent';
 import EventDetail from 'containers/event/eventDetail';
 import ProfileView from 'containers/profile/profileView';
 import EventHistoryView from 'containers/event/eventHistoryView';
+import EventHistoryDetail from 'containers/event/eventHistoryDetail';
 
 import { enableScreens } from 'react-native-screens';
 
@@ -52,6 +53,7 @@ const AppNavigator = () => {
                 <Stack.Screen name="EventDetail" component={EventDetail} />
                 <Stack.Screen name="Profile" component={ProfileView} />
                 <Stack.Screen name="EventHistory" component={EventHistoryView} />
+                <Stack.Screen name="EventHistoryDetail" component={EventHistoryDetail} />
             </Stack.Navigator>
         </NavigationContainer>
     )
